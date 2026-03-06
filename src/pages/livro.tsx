@@ -70,8 +70,8 @@ export function Livros() {
             setEditingId(null);
 
             toast.success("Livro atualizado!");
-        } catch {
-            toast.error("Erro ao atualizar.");
+        } catch (error: any) {
+            toast.error(error.message || "Erro ao atualizar.");
         }
     };
 
@@ -79,8 +79,8 @@ export function Livros() {
         try {
             await deleteLivro.mutateAsync(id);
             toast.success("Livro excluído!");
-        } catch {
-            toast.error("Erro ao excluir.");
+        } catch (error: any) {
+            toast.error(error.message || "Erro ao excluir.");
         }
     };
 
