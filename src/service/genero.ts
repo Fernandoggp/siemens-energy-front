@@ -1,11 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
 
-export interface ApiResponse<T> {
-    success: boolean;
-    messages: string[];
-    data: T;
-}
-
 export interface Genero {
     id: string;
     name: string;
@@ -20,28 +14,28 @@ export interface UpdateGeneroDto {
     name: string;
 }
 
-export async function getGeneros(): Promise<ApiResponse<Genero[]>> {
+export async function getGeneros(): Promise<Genero[]> {
     const response = await axiosInstance.get(`/genero/list-generos`);
-    return response.data;
+    return response.data.data;
 }
 
 export async function createGenero(
     genero: CreateGeneroDto
-): Promise<ApiResponse<Genero>> {
+): Promise<Genero> {
     const response = await axiosInstance.post(`/genero/create-genero`, genero);
-    return response.data;
+    return response.data.data;
 }
 
 export async function updateGenero(
     genero: UpdateGeneroDto
-): Promise<ApiResponse<Genero>> {
+): Promise<Genero> {
     const response = await axiosInstance.put(`/genero/update-genero`, genero);
-    return response.data;
+    return response.data.data;
 }
 
 export async function deleteGenero(
     id: string
-): Promise<ApiResponse<boolean>> {
+): Promise<boolean> {
     const response = await axiosInstance.delete(`/genero/delete-genero/${id}`);
-    return response.data;
+    return response.data.data;
 }

@@ -5,7 +5,7 @@ import {
     updateGenero,
     deleteGenero,
     CreateGeneroDto,
-    UpdateGeneroDto
+    UpdateGeneroDto,
 } from "@/service/genero";
 
 export function useGeneros() {
@@ -38,7 +38,7 @@ export function useGeneros() {
     });
 
     return {
-        generos: data?.data,
+        generos: data,
         isLoading,
         isError,
         createGenero: createGeneroMutation,

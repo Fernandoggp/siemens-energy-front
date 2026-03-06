@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useGeneros } from "@/hooks/useGeneros";
 import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
 
 export function Generos() {
     const { generos, createGenero, updateGenero, deleteGenero } = useGeneros();
@@ -20,9 +21,9 @@ export function Generos() {
         }
     };
 
-    const startEditing = (id: string, Name: string) => {
+    const startEditing = (id: string, name: string) => {
         setEditingGeneroId(id);
-        setEditingGeneroName(Name);
+        setEditingGeneroName(name);
     };
 
     const cancelEditing = () => {
@@ -59,13 +60,18 @@ export function Generos() {
             <div style={{ marginBottom: "20px" }}>
                 <input
                     type="text"
-                    placeholder="Name do gênero"
+                    placeholder="Nome do gênero"
                     value={newGeneroName}
                     onChange={(e) => setNewGeneroName(e.target.value)}
                 />
-                <button onClick={handleCreateGenero} disabled={createGenero.isPending}>
+
+                <Button
+                    style={{ marginLeft: "10px" }}
+                    onClick={handleCreateGenero}
+                    disabled={createGenero.isPending}
+                >
                     {createGenero.isPending ? "Criando..." : "Criar Gênero"}
-                </button>
+                </Button>
             </div>
 
             <ul>
@@ -78,30 +84,42 @@ export function Generos() {
                                     value={editingGeneroName}
                                     onChange={(e) => setEditingGeneroName(e.target.value)}
                                 />
-                                <button
+
+                                <Button
+                                    style={{ marginLeft: "10px" }}
                                     onClick={() => handleUpdateGenero(genero.id)}
                                     disabled={updateGenero.isPending}
                                 >
                                     {updateGenero.isPending ? "Salvando..." : "Salvar"}
-                                </button>
-                                <button onClick={cancelEditing}>Cancelar</button>
+                                </Button>
+
+                                <Button
+                                    variant="secondary"
+                                    style={{ marginLeft: "5px" }}
+                                    onClick={cancelEditing}
+                                >
+                                    Cancelar
+                                </Button>
                             </>
                         ) : (
                             <>
                                 {genero.name}
-                                <button
+
+                                <Button
                                     style={{ marginLeft: "10px" }}
                                     onClick={() => startEditing(genero.id, genero.name)}
                                 >
                                     Editar
-                                </button>
-                                <button
+                                </Button>
+
+                                <Button
+                                    variant="destructive"
                                     style={{ marginLeft: "5px" }}
                                     onClick={() => handleDeleteGenero(genero.id)}
                                     disabled={deleteGenero.isPending}
                                 >
                                     {deleteGenero.isPending ? "Deletando..." : "Deletar"}
-                                </button>
+                                </Button>
                             </>
                         )}
                     </li>
