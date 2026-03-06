@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
 import {
     getLivros,
     getFilteredLivros,
@@ -11,11 +12,12 @@ import {
 } from "@/service/livro";
 
 export function useLivros(filters?: LivroFilters) {
+
     const queryClient = useQueryClient();
 
     const { data: todosLivros, isLoading: loadingTodos } = useQuery({
         queryKey: ["livros"],
-        queryFn: () => getLivros(),
+        queryFn: getLivros,
     });
 
     const { data: livrosFiltrados, isLoading: loadingFiltro } = useQuery({
@@ -45,8 +47,12 @@ export function useLivros(filters?: LivroFilters) {
         },
     });
 
-    const temFiltroAtivo = !!(filters?.livroId || filters?.autorId || filters?.generoId);
-    const dadosExibicao = temFiltroAtivo ? livrosFiltrados?.data : todosLivros?.data;
+    const temFiltroAtivo =
+        !!(filters?.livroId || filters?.autorId || filters?.generoId);
+
+    const dadosExibicao = temFiltroAtivo
+        ? livrosFiltrados
+        : todosLivros;
 
     return {
         livros: dadosExibicao,
