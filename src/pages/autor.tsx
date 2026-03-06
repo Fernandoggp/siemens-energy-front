@@ -8,7 +8,6 @@ export function Autores() {
   const [editingAutorId, setEditingAutorId] = useState<string | null>(null);
   const [editingAutorName, setEditingAutorName] = useState("");
 
-  // Criar autor
   const handleCreateAutor = async () => {
     if (!newAutorName.trim()) return;
 
@@ -21,19 +20,16 @@ export function Autores() {
     }
   };
 
-  // Iniciar edição
   const startEditing = (id: string, name: string) => {
     setEditingAutorId(id);
     setEditingAutorName(name);
   };
 
-  // Cancelar edição
   const cancelEditing = () => {
     setEditingAutorId(null);
     setEditingAutorName("");
   };
 
-  // Salvar edição
   const handleUpdateAutor = async (id: string) => {
     if (!editingAutorName.trim()) return;
 
@@ -47,7 +43,6 @@ export function Autores() {
     }
   };
 
-  // Deletar autor
   const handleDeleteAutor = async (id: string) => {
     try {
       await deleteAutor.mutateAsync(id);
@@ -61,7 +56,6 @@ export function Autores() {
     <div style={{ padding: "20px" }}>
       <h1>Autores</h1>
 
-      {/* Form de criação */}
       <div style={{ marginBottom: "20px" }}>
         <input
           type="text"
@@ -74,7 +68,6 @@ export function Autores() {
         </button>
       </div>
 
-      {/* Lista de autores */}
       <ul>
         {autores?.map((autor) => (
           <li key={autor.id} style={{ marginBottom: "10px" }}>
