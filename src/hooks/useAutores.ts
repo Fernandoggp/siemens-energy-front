@@ -6,26 +6,26 @@ export function useAutores() {
 
     const { data } = useQuery({
         queryKey: ["autores"],
-        queryFn: () => getAutores(),
+        queryFn: getAutores,
     });
 
     const createAutorMutation = useMutation({
-        mutationFn: (autor: { name: string }) => createAutor(autor),
+        mutationFn: createAutor,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["autores"] }),
     });
 
     const updateAutorMutation = useMutation({
-        mutationFn: (autor: { id: string; name: string }) => updateAutor(autor),
+        mutationFn: updateAutor,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["autores"] }),
     });
 
     const deleteAutorMutation = useMutation({
-        mutationFn: (id: string) => deleteAutor(id),
+        mutationFn: deleteAutor,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["autores"] }),
     });
 
     return {
-        autores: data?.data,
+        autores: data,
         createAutor: createAutorMutation,
         updateAutor: updateAutorMutation,
         deleteAutor: deleteAutorMutation,

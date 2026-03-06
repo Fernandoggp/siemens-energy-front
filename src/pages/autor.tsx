@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useAutores } from "@/hooks/useAutores";
 import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
 
 export function Autores() {
   const { autores, createAutor, updateAutor, deleteAutor } = useAutores();
+
   const [newAutorName, setNewAutorName] = useState("");
   const [editingAutorId, setEditingAutorId] = useState<string | null>(null);
   const [editingAutorName, setEditingAutorName] = useState("");
@@ -53,55 +55,82 @@ export function Autores() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Autores</h1>
+    <div style={{ padding: "20px", maxWidth: "600px" }}>
+      <h1 style={{ marginBottom: "20px" }}>Autores</h1>
 
-      <div style={{ marginBottom: "20px" }}>
+      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
         <input
           type="text"
           placeholder="Nome do autor"
           value={newAutorName}
           onChange={(e) => setNewAutorName(e.target.value)}
+          style={{ padding: "8px", flex: 1 }}
         />
-        <button onClick={handleCreateAutor} disabled={createAutor.isPending}>
+
+        <Button onClick={handleCreateAutor} disabled={createAutor.isPending}>
           {createAutor.isPending ? "Criando..." : "Criar Autor"}
-        </button>
+        </Button>
       </div>
 
-      <ul>
+      <ul style={{ listStyle: "none", padding: 0 }}>
         {autores?.map((autor) => (
-          <li key={autor.id} style={{ marginBottom: "10px" }}>
+          <li
+            key={autor.id}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "10px",
+              padding: "10px",
+              background: "#111827",
+              borderRadius: "6px",
+            }}
+          >
             {editingAutorId === autor.id ? (
               <>
                 <input
                   type="text"
                   value={editingAutorName}
                   onChange={(e) => setEditingAutorName(e.target.value)}
+                  style={{ padding: "6px", marginRight: "10px" }}
                 />
-                <button
-                  onClick={() => handleUpdateAutor(autor.id)}
-                  disabled={updateAutor.isPending}
-                >
-                  {updateAutor.isPending ? "Salvando..." : "Salvar"}
-                </button>
-                <button onClick={cancelEditing}>Cancelar</button>
+
+                <div style={{ display: "flex", gap: "6px" }}>
+                  <Button
+                    size="sm"
+                    onClick={() => handleUpdateAutor(autor.id)}
+                    disabled={updateAutor.isPending}
+                  >
+                    {updateAutor.isPending ? "Salvando..." : "Salvar"}
+                  </Button>
+
+                  <Button variant="outline" size="sm" onClick={cancelEditing}>
+                    Cancelar
+                  </Button>
+                </div>
               </>
             ) : (
               <>
-                {autor.name}
-                <button
-                  style={{ marginLeft: "10px" }}
-                  onClick={() => startEditing(autor.id, autor.name)}
-                >
-                  Editar
-                </button>
-                <button
-                  style={{ marginLeft: "5px" }}
-                  onClick={() => handleDeleteAutor(autor.id)}
-                  disabled={deleteAutor.isPending}
-                >
-                  {deleteAutor.isPending ? "Deletando..." : "Deletar"}
-                </button>
+                <span>{autor.name}</span>
+
+                <div style={{ display: "flex", gap: "6px" }}>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => startEditing(autor.id, autor.name)}
+                  >
+                    Editar
+                  </Button>
+
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleDeleteAutor(autor.id)}
+                    disabled={deleteAutor.isPending}
+                  >
+                    {deleteAutor.isPending ? "Deletando..." : "Deletar"}
+                  </Button>
+                </div>
               </>
             )}
           </li>
